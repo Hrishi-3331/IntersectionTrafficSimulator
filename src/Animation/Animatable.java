@@ -2,11 +2,8 @@ package Animation;
 
 import java.awt.*;
 
-public class Animatable {
+public interface Animatable {
 
-    public void draw(Graphics graphics){
-        Graphics2D canvas = (Graphics2D)graphics;
-
-    }
+    void draw(Graphics graphics);
 
 }
