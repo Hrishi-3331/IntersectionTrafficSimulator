@@ -48,6 +48,11 @@ public class Intersection implements Animatable, Simulatable {
     }
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
     public void simulate() {
 
     }

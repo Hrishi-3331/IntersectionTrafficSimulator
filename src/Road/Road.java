@@ -61,6 +61,10 @@ public abstract class Road implements Animatable {
         this.trafficIntensity = trafficIntensity;
     }
 
+    public void check(Vehicle vehicle){
+
+    }
+
     @Override
     public void draw(Graphics graphics) {
 
