@@ -14,10 +14,16 @@ public final class GraphicResources {
     public static final String ROAD_HORIZONTAL = "/res/RoadGraphics/road_horizontal.jpg";
     public static final String ROAD_VERTICAL = "/res/RoadGraphics/road_vertical.jpg";
 
+    public static final String SIGNAL_RED = "/res/SignalGraphics/signal_red.png";
+    public static final String SIGNAL_GREEN = "/res/SignalGraphics/signal_green.png";
+
     public static final int VEHICLE_WIDTH = 80;
     public static final int VEHICLE_HEIGHT = 60;
 
-    public static final int ROAD_WIDTH = 100;
+    public static final int SIGNAL_WIDTH = 40;
+    public static final int SIGNAL_HEIGHT = 120;
+
+    public static final int ROAD_WIDTH = 160;
     public static final int ROAD_VERTICAL_LENGTH = (int) dimension.getHeight();
     public static final int ROAD_HORIZONTAL_LENGTH = (int) dimension.getWidth();
 

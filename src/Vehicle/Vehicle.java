@@ -61,21 +61,24 @@ public class Vehicle implements Animatable, Simulatable {
             switch (this.getFacing()){
                 case Road.DIRECTION_NORTH:
                     vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_NORTH));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_HEIGHT, GraphicResources.VEHICLE_WIDTH, null);
                     break;
 
                 case Road.DIRECTION_SOUTH:
                     vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_SOUTH));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_HEIGHT, GraphicResources.VEHICLE_WIDTH, null);
                     break;
 
                 case Road.DIRECTION_EAST:
                     vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_EAST));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_WIDTH, GraphicResources.VEHICLE_HEIGHT, null);
                     break;
 
                 case Road.DIRECTION_WEST:
                     vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_WEST));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_WIDTH, GraphicResources.VEHICLE_HEIGHT, null);
                     break;
             }
-            canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_WIDTH, GraphicResources.VEHICLE_HEIGHT, null);
         }catch (Exception e){
             canvas.drawRect(this.posX, this.posY, GraphicResources.VEHICLE_WIDTH, GraphicResources.VEHICLE_HEIGHT);
         }
