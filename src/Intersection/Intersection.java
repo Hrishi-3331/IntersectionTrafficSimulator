@@ -3,7 +3,6 @@ package Intersection;
 import Animation.Animatable;
 import Road.Road;
 import SignalController.SignalController;
-import SimulationToolbox.Simulatable;
 import TrafficSignal.TrafficSignal;
 import res.GraphicResources;
 
