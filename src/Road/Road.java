@@ -2,6 +2,9 @@ package Road;
 
 import Animation.Animatable;
 import Vehicle.Vehicle;
+import res.GraphicResources;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -22,6 +25,8 @@ public abstract class Road implements Animatable {
     protected int orientation;
     protected int direction;
     protected int trafficIntensity;
+    protected int posX;
+    protected int posY;
 
     protected ArrayList<Vehicle> vehicles;
 
@@ -49,8 +54,8 @@ public abstract class Road implements Animatable {
         return direction;
     }
 
-    public void addVehicle(){
-
+    public void addVehicle(Vehicle vehicle){
+        this.vehicles.add(vehicle);
     }
 
     public int getTrafficIntensity() {
@@ -67,13 +72,38 @@ public abstract class Road implements Animatable {
 
     @Override
     public void draw(Graphics graphics) {
+        Graphics2D canvas = (Graphics2D) graphics;
+        Image roadImage = null;
+        try{
+            switch (this.getOrientation()){
+                case Road.ORIENTATION_HORIZONTAL:
+                    roadImage = ImageIO.read(getClass().getResourceAsStream(GraphicResources.ROAD_HORIZONTAL));
+                    canvas.drawImage(roadImage, posX, posY, GraphicResources.ROAD_HORIZONTAL_LENGTH, GraphicResources.ROAD_WIDTH, null);
+                    break;
 
+                case Road.ORIENTATION_VERTICAL:
+                    roadImage = ImageIO.read(getClass().getResourceAsStream(GraphicResources.ROAD_VERTICAL));
+                    canvas.drawImage(roadImage, posX, posY, GraphicResources.ROAD_WIDTH, GraphicResources.ROAD_VERTICAL_LENGTH, null);
+                    break;
+            }
+        }
+        catch (Exception e){
+            switch (this.getOrientation()){
+                case Road.ORIENTATION_HORIZONTAL:
+                    canvas.drawRect(posX, posY, GraphicResources.ROAD_HORIZONTAL_LENGTH, GraphicResources.ROAD_WIDTH);
+                    break;
+
+                case Road.ORIENTATION_VERTICAL:
+                    canvas.drawRect(posX, posY, GraphicResources.ROAD_WIDTH, GraphicResources.ROAD_VERTICAL_LENGTH);
+                    break;
+            }
+        }
     }
 
     public int getWaitingCount(){
         int count = 0;
         for (Vehicle vehicle : vehicles){
-
+            if (vehicle.getRunState() == Vehicle.STATE_WAITING) count++;
         }
         return count;
     }
