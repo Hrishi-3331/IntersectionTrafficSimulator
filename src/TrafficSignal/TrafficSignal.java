@@ -4,7 +4,6 @@ import Animation.Animatable;
 import Road.Road;
 import SignalController.SignalController;
 import res.GraphicResources;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 
@@ -57,6 +56,14 @@ public class TrafficSignal implements Animatable {
         }
     }
 
+    public void setRoad(Road road){
+        this.road = road;
+    }
+
+    public Road getRoad(){
+        return this.road;
+    }
+
     public int getRestrictorPos() {
         return restrictorPos;
     }
@@ -91,5 +98,4 @@ public class TrafficSignal implements Animatable {
     public void setRed(){
         this.state = TrafficSignal.STATE_RED;
     }
-
 }

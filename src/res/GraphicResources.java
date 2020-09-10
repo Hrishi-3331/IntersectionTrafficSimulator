@@ -17,6 +17,8 @@ public final class GraphicResources {
     public static final String SIGNAL_RED = "/res/SignalGraphics/signal_red.png";
     public static final String SIGNAL_GREEN = "/res/SignalGraphics/signal_green.png";
 
+    public static final String INTERSECTION = "/res/IntersectionGraphics/intersection.png";
+
     public static final int VEHICLE_WIDTH = 80;
     public static final int VEHICLE_HEIGHT = 60;
 

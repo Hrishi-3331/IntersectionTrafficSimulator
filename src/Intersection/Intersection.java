@@ -5,16 +5,20 @@ import Road.Road;
 import SignalController.SignalController;
 import SimulationToolbox.Simulatable;
 import TrafficSignal.TrafficSignal;
+import res.GraphicResources;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Intersection implements Animatable, Simulatable {
+public class Intersection implements Animatable{
 
     private String id;
     private ArrayList<Road> roads;
     private ArrayList<TrafficSignal> signals;
     private SignalController signalController;
+    private int posX;
+    private int posY;
 
     public Intersection(String id) {
         this.id = id;
@@ -44,16 +48,14 @@ public class Intersection implements Animatable, Simulatable {
 
     @Override
     public void draw(Graphics graphics) {
-
+        Graphics2D canvas = (Graphics2D)graphics;
+        try{
+            Image intersection_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.INTERSECTION));
+            canvas.drawImage(intersection_image, posX, posY, GraphicResources.ROAD_WIDTH,GraphicResources.ROAD_WIDTH, null);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void simulate() {
-
-    }
 }
