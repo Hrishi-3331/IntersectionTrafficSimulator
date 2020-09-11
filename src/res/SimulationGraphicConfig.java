@@ -2,7 +2,7 @@ package res;
 
 import java.awt.*;
 
-public final class GraphicResources {
+public final class SimulationGraphicConfig {
 
     private static Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -36,19 +36,19 @@ public final class GraphicResources {
     public static final int MODERATE_TRAFFIC_THRESHOLD_INTERVAL = 6;
     public static final int HIGH_TRAFFIC_THRESHOLD_INTERVAL = 4;
 
-    public static final int VEHICLE_NORTH_POS_X = VERTICAL_ROAD_X_POS + 20;
+    public static final int VEHICLE_NORTH_POS_X = VERTICAL_ROAD_X_POS + 15;
     public static final int VEHICLE_NORTH_POS_Y = (int) dimension.getHeight();
-    public static final int VEHICLE_SOUTH_POS_X = VERTICAL_ROAD_X_POS + 20;
+    public static final int VEHICLE_SOUTH_POS_X = VERTICAL_ROAD_X_POS + 15;
     public static final int VEHICLE_SOUTH_POS_Y = 0;
     public static final int VEHICLE_EAST_POS_X = 0;
-    public static final int VEHICLE_EAST_POS_Y = HORIZONTAL_ROAD_Y_POS + 20;
+    public static final int VEHICLE_EAST_POS_Y = HORIZONTAL_ROAD_Y_POS + 15;
     public static final int VEHICLE_WEST_POS_X = (int) dimension.getWidth();
-    public static final int VEHICLE_WEST_POS_Y = HORIZONTAL_ROAD_Y_POS + 20;
+    public static final int VEHICLE_WEST_POS_Y = HORIZONTAL_ROAD_Y_POS + 15;
 
     public static final int BOUNDARY_X = (int) dimension .getWidth();
     public static final int BOUNDARY_Y = (int) dimension.getHeight();
 
-    private GraphicResources(){
+    private SimulationGraphicConfig(){
 
     }
 }

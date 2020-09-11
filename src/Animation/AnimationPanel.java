@@ -34,7 +34,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
             timer.stop();
             System.out.println("Animation Ended");
         }
-        else System.out.println("Instance " + handler.getCurrentInstance());
         this.repaint();
     }
 }

@@ -14,7 +14,7 @@ public class Main extends Scenario {
 
     @Override
     public void buildScenario() {
-        Road road = new OneWayRoad("Road1", Road.DIRECTION_EAST);
+        Road road = new OneWayRoad("Road1", Road.DIRECTION_WEST);
         Road road1 = new OneWayRoad("Road2", Road.DIRECTION_NORTH);
         Intersection intersection = new Intersection("Intersection1");
         intersection.addRoad(road);

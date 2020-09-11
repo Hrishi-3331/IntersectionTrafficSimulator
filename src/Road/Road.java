@@ -3,7 +3,7 @@ package Road;
 import Animation.Animatable;
 import SimulationToolbox.Scenario;
 import Vehicle.Vehicle;
-import res.GraphicResources;
+import res.SimulationGraphicConfig;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -30,6 +30,7 @@ public abstract class Road implements Animatable {
     protected int trafficIntensity;
     protected int posX;
     protected int posY;
+    protected boolean lane;
 
     protected ArrayList<Vehicle> vehicles;
 
@@ -39,14 +40,15 @@ public abstract class Road implements Animatable {
         if (direction == Road.DIRECTION_NORTH | direction == Road.DIRECTION_SOUTH) {
             orientation = Road.ORIENTATION_VERTICAL;
             posY = 0;
-            posX = GraphicResources.VERTICAL_ROAD_X_POS;
+            posX = SimulationGraphicConfig.VERTICAL_ROAD_X_POS;
         } else if (direction == Road.DIRECTION_EAST | direction == Road.DIRECTION_WEST) {
             orientation = Road.ORIENTATION_HORIZONTAL;
             posX = 0;
-            posY = GraphicResources.HORIZONTAL_ROAD_Y_POS;
+            posY = SimulationGraphicConfig.HORIZONTAL_ROAD_Y_POS;
         }
         this.trafficIntensity = Road.INTENSITY_MODERATE;
         vehicles = new ArrayList<>();
+        lane = false;
     }
 
     public String getId(){
@@ -84,24 +86,24 @@ public abstract class Road implements Animatable {
         try{
             switch (this.getOrientation()){
                 case Road.ORIENTATION_HORIZONTAL:
-                    roadImage = ImageIO.read(getClass().getResourceAsStream(GraphicResources.ROAD_HORIZONTAL));
-                    canvas.drawImage(roadImage, posX, posY, GraphicResources.ROAD_HORIZONTAL_LENGTH, GraphicResources.ROAD_WIDTH, null);
+                    roadImage = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.ROAD_HORIZONTAL));
+                    canvas.drawImage(roadImage, posX, posY, SimulationGraphicConfig.ROAD_HORIZONTAL_LENGTH, SimulationGraphicConfig.ROAD_WIDTH, null);
                     break;
 
                 case Road.ORIENTATION_VERTICAL:
-                    roadImage = ImageIO.read(getClass().getResourceAsStream(GraphicResources.ROAD_VERTICAL));
-                    canvas.drawImage(roadImage, posX, posY, GraphicResources.ROAD_WIDTH, GraphicResources.ROAD_VERTICAL_LENGTH, null);
+                    roadImage = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.ROAD_VERTICAL));
+                    canvas.drawImage(roadImage, posX, posY, SimulationGraphicConfig.ROAD_WIDTH, SimulationGraphicConfig.ROAD_VERTICAL_LENGTH, null);
                     break;
             }
         }
         catch (Exception e){
             switch (this.getOrientation()){
                 case Road.ORIENTATION_HORIZONTAL:
-                    canvas.drawRect(posX, posY, GraphicResources.ROAD_HORIZONTAL_LENGTH, GraphicResources.ROAD_WIDTH);
+                    canvas.drawRect(posX, posY, SimulationGraphicConfig.ROAD_HORIZONTAL_LENGTH, SimulationGraphicConfig.ROAD_WIDTH);
                     break;
 
                 case Road.ORIENTATION_VERTICAL:
-                    canvas.drawRect(posX, posY, GraphicResources.ROAD_WIDTH, GraphicResources.ROAD_VERTICAL_LENGTH);
+                    canvas.drawRect(posX, posY, SimulationGraphicConfig.ROAD_WIDTH, SimulationGraphicConfig.ROAD_VERTICAL_LENGTH);
                     break;
             }
         }
@@ -123,23 +125,23 @@ public abstract class Road implements Animatable {
                 addVehicle(vehicle);
                 switch (vehicle.getFacing()){
                     case Road.DIRECTION_EAST:
-                        vehicle.setPosX(GraphicResources.VEHICLE_EAST_POS_X);
-                        vehicle.setPosY(GraphicResources.VEHICLE_EAST_POS_Y);
+                        vehicle.setPosX(SimulationGraphicConfig.VEHICLE_EAST_POS_X);
+                        vehicle.setPosY(SimulationGraphicConfig.VEHICLE_EAST_POS_Y + getLaneOffset());
                         break;
 
                     case Road.DIRECTION_WEST:
-                        vehicle.setPosX(GraphicResources.VEHICLE_WEST_POS_X);
-                        vehicle.setPosY(GraphicResources.VEHICLE_WEST_POS_Y);
+                        vehicle.setPosX(SimulationGraphicConfig.VEHICLE_WEST_POS_X);
+                        vehicle.setPosY(SimulationGraphicConfig.VEHICLE_WEST_POS_Y + getLaneOffset());
                         break;
 
                     case Road.DIRECTION_SOUTH:
-                        vehicle.setPosX(GraphicResources.VEHICLE_SOUTH_POS_X);
-                        vehicle.setPosY(GraphicResources.VEHICLE_SOUTH_POS_Y);
+                        vehicle.setPosX(SimulationGraphicConfig.VEHICLE_SOUTH_POS_X + getLaneOffset());
+                        vehicle.setPosY(SimulationGraphicConfig.VEHICLE_SOUTH_POS_Y);
                         break;
 
                     case Road.DIRECTION_NORTH:
-                        vehicle.setPosX(GraphicResources.VEHICLE_NORTH_POS_X);
-                        vehicle.setPosY(GraphicResources.VEHICLE_NORTH_POS_Y);
+                        vehicle.setPosX(SimulationGraphicConfig.VEHICLE_NORTH_POS_X + getLaneOffset());
+                        vehicle.setPosY(SimulationGraphicConfig.VEHICLE_NORTH_POS_Y);
                         break;
                 }
                 scenario.addComponent(vehicle);
@@ -150,16 +152,24 @@ public abstract class Road implements Animatable {
         else return false;
     }
 
+    protected int getLaneOffset(){
+        lane = !lane;
+        if (lane){
+            return SimulationGraphicConfig.VEHICLE_HEIGHT + 15;
+        }
+        else return 0;
+    }
+
     private int getTrafficThreshold(){
         switch (this.getTrafficIntensity()){
             case Road.INTENSITY_LOW:
-                return GraphicResources.LOW_TRAFFIC_THRESHOLD_INTERVAL;
+                return SimulationGraphicConfig.LOW_TRAFFIC_THRESHOLD_INTERVAL;
 
             case Road.INTENSITY_MODERATE:
-                return GraphicResources.MODERATE_TRAFFIC_THRESHOLD_INTERVAL;
+                return SimulationGraphicConfig.MODERATE_TRAFFIC_THRESHOLD_INTERVAL;
 
             case Road.INTENSITY_HIGH:
-                return GraphicResources.HIGH_TRAFFIC_THRESHOLD_INTERVAL;
+                return SimulationGraphicConfig.HIGH_TRAFFIC_THRESHOLD_INTERVAL;
         }
         return 3;
     }

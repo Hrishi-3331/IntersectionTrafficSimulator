@@ -3,7 +3,7 @@ package Vehicle;
 import Animation.Animatable;
 import Road.Road;
 import SimulationToolbox.Simulatable;
-import res.GraphicResources;
+import res.SimulationGraphicConfig;
 import javax.imageio.ImageIO;
 import java.awt.*;
 
@@ -67,27 +67,27 @@ public class Vehicle implements Animatable, Simulatable {
         try{
             switch (this.getFacing()){
                 case Road.DIRECTION_NORTH:
-                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_NORTH));
-                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_HEIGHT, GraphicResources.VEHICLE_WIDTH, null);
+                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.CAR_NORTH));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, SimulationGraphicConfig.VEHICLE_HEIGHT, SimulationGraphicConfig.VEHICLE_WIDTH, null);
                     break;
 
                 case Road.DIRECTION_SOUTH:
-                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_SOUTH));
-                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_HEIGHT, GraphicResources.VEHICLE_WIDTH, null);
+                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.CAR_SOUTH));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, SimulationGraphicConfig.VEHICLE_HEIGHT, SimulationGraphicConfig.VEHICLE_WIDTH, null);
                     break;
 
                 case Road.DIRECTION_EAST:
-                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_EAST));
-                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_WIDTH, GraphicResources.VEHICLE_HEIGHT, null);
+                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.CAR_EAST));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, SimulationGraphicConfig.VEHICLE_WIDTH, SimulationGraphicConfig.VEHICLE_HEIGHT, null);
                     break;
 
                 case Road.DIRECTION_WEST:
-                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.CAR_WEST));
-                    canvas.drawImage(vehicle_image, this.posX, this.posY, GraphicResources.VEHICLE_WIDTH, GraphicResources.VEHICLE_HEIGHT, null);
+                    vehicle_image = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.CAR_WEST));
+                    canvas.drawImage(vehicle_image, this.posX, this.posY, SimulationGraphicConfig.VEHICLE_WIDTH, SimulationGraphicConfig.VEHICLE_HEIGHT, null);
                     break;
             }
         }catch (Exception e){
-            canvas.drawRect(this.posX, this.posY, GraphicResources.VEHICLE_WIDTH, GraphicResources.VEHICLE_HEIGHT);
+            canvas.drawRect(this.posX, this.posY, SimulationGraphicConfig.VEHICLE_WIDTH, SimulationGraphicConfig.VEHICLE_HEIGHT);
         }
     }
 
@@ -100,8 +100,8 @@ public class Vehicle implements Animatable, Simulatable {
     @Override
     public void simulate() {
         if (this.getRunState() == Vehicle.STATE_OUT_OF_SCENE) return;
-        if (this.posX < 0 || this.posX > GraphicResources.BOUNDARY_X) this.setRunState(Vehicle.STATE_OUT_OF_SCENE);
-        if (this.posY < 0 || this.posY > GraphicResources.BOUNDARY_Y) this.setRunState(Vehicle.STATE_OUT_OF_SCENE);
+        if (this.posX < 0 - SimulationGraphicConfig.VEHICLE_WIDTH || this.posX > SimulationGraphicConfig.BOUNDARY_X) this.setRunState(Vehicle.STATE_OUT_OF_SCENE);
+        if (this.posY < 0 - SimulationGraphicConfig.VEHICLE_WIDTH || this.posY > SimulationGraphicConfig.BOUNDARY_Y) this.setRunState(Vehicle.STATE_OUT_OF_SCENE);
         int i = 0;
         while (i < speed){
             if (this.runState == Vehicle.STATE_RUNNING) {

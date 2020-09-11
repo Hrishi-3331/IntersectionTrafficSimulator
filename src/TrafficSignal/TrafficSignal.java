@@ -3,7 +3,7 @@ package TrafficSignal;
 import Animation.Animatable;
 import Road.Road;
 import SignalController.SignalController;
-import res.GraphicResources;
+import res.SimulationGraphicConfig;
 import javax.imageio.ImageIO;
 import java.awt.*;
 
@@ -41,13 +41,13 @@ public class TrafficSignal implements Animatable {
         try{
             switch (this.getSignalState()){
                 case TrafficSignal.STATE_GREEN:
-                    signal_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.SIGNAL_GREEN));
-                    canvas.drawImage(signal_image, posX, posY, GraphicResources.SIGNAL_WIDTH, GraphicResources.SIGNAL_HEIGHT, null);
+                    signal_image = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.SIGNAL_GREEN));
+                    canvas.drawImage(signal_image, posX, posY, SimulationGraphicConfig.SIGNAL_WIDTH, SimulationGraphicConfig.SIGNAL_HEIGHT, null);
                     break;
 
                 case TrafficSignal.STATE_RED:
-                    signal_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.SIGNAL_RED));
-                    canvas.drawImage(signal_image, posX, posY, GraphicResources.SIGNAL_WIDTH, GraphicResources.SIGNAL_HEIGHT, null);
+                    signal_image = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.SIGNAL_RED));
+                    canvas.drawImage(signal_image, posX, posY, SimulationGraphicConfig.SIGNAL_WIDTH, SimulationGraphicConfig.SIGNAL_HEIGHT, null);
                     break;
             }
         }

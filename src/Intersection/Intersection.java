@@ -4,7 +4,7 @@ import Animation.Animatable;
 import Road.Road;
 import SignalController.SignalController;
 import TrafficSignal.TrafficSignal;
-import res.GraphicResources;
+import res.SimulationGraphicConfig;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,8 +23,8 @@ public class Intersection implements Animatable{
         this.id = id;
         roads = new ArrayList<Road>();
         signals = new ArrayList<TrafficSignal>();
-        this.posX = GraphicResources.VERTICAL_ROAD_X_POS;
-        this.posY = GraphicResources.HORIZONTAL_ROAD_Y_POS;
+        this.posX = SimulationGraphicConfig.VERTICAL_ROAD_X_POS;
+        this.posY = SimulationGraphicConfig.HORIZONTAL_ROAD_Y_POS;
     }
 
     public void addRoad(Road road){
@@ -59,8 +59,8 @@ public class Intersection implements Animatable{
     public void draw(Graphics graphics) {
         Graphics2D canvas = (Graphics2D)graphics;
         try{
-            Image intersection_image = ImageIO.read(getClass().getResourceAsStream(GraphicResources.INTERSECTION));
-            canvas.drawImage(intersection_image, posX, posY, GraphicResources.ROAD_WIDTH,GraphicResources.ROAD_WIDTH, null);
+            Image intersection_image = ImageIO.read(getClass().getResourceAsStream(SimulationGraphicConfig.INTERSECTION));
+            canvas.drawImage(intersection_image, posX, posY, SimulationGraphicConfig.ROAD_WIDTH, SimulationGraphicConfig.ROAD_WIDTH, null);
         }
         catch (Exception e){
             e.printStackTrace();
