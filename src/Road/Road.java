@@ -2,12 +2,14 @@ package Road;
 
 import Animation.Animatable;
 import SimulationToolbox.Scenario;
+import TrafficSignal.TrafficSignal;
 import Vehicle.Vehicle;
 import res.SimulationGraphicConfig;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
@@ -31,8 +33,12 @@ public abstract class Road implements Animatable {
     protected int posX;
     protected int posY;
     protected boolean lane;
+    protected TrafficSignal trafficSignal;
+
+    protected int[][] roadGrid;
 
     protected ArrayList<Vehicle> vehicles;
+    protected HashMap<Integer, Integer> road_data;
 
     public Road(String id, int direction) {
         this.direction = direction;
@@ -46,9 +52,11 @@ public abstract class Road implements Animatable {
             posX = 0;
             posY = SimulationGraphicConfig.HORIZONTAL_ROAD_Y_POS;
         }
+        roadGrid = new int[SimulationGraphicConfig.BOUNDARY_X*2][SimulationGraphicConfig.BOUNDARY_Y*2];
         this.trafficIntensity = Road.INTENSITY_MODERATE;
         vehicles = new ArrayList<>();
         lane = false;
+        road_data = new HashMap<>();
     }
 
     public String getId(){
@@ -76,7 +84,36 @@ public abstract class Road implements Animatable {
     }
 
     public void check(Vehicle vehicle){
+        if (this.trafficSignal != null){
+            TrafficSignal signal = this.trafficSignal;
+            if (vehicle.getMobilePos() == signal.getRestrictorPos()){
+                if (signal.getSignalState() != TrafficSignal.STATE_GREEN && vehicle.getRunState() == Vehicle.STATE_RUNNING){
+                    vehicle.waitUntilGreen();
+                    roadGrid[vehicle.getSafePosX()][vehicle.getSafePosY()] = 1;
+                    return;
+                }
+                else if (signal.getSignalState() == TrafficSignal.STATE_GREEN && vehicle.getRunState() == Vehicle.STATE_WAITING){
+                    vehicle.goUntilRed();
+                    roadGrid[vehicle.getSafePosX()][vehicle.getSafePosY()] = 0;
+                    return;
+                }
+                return;
+            }
 
+            if (vehicle.getPosX() < 0 || vehicle.getPosY() < 0) return;
+            if (roadGrid[vehicle.getPosX()][vehicle.getPosY()] == 1){
+                vehicle.waitUntilGreen();
+                roadGrid[vehicle.getSafePosX()][vehicle.getSafePosY()] = 1;
+            }
+            else {
+                vehicle.goUntilRed();
+                roadGrid[vehicle.getSafePosX()][vehicle.getSafePosY()] = 0;
+            }
+        }
+    }
+
+    public void setTrafficSignal(TrafficSignal trafficSignal) {
+        this.trafficSignal = trafficSignal;
     }
 
     @Override
@@ -158,6 +195,10 @@ public abstract class Road implements Animatable {
             return SimulationGraphicConfig.VEHICLE_HEIGHT + 15;
         }
         else return 0;
+    }
+
+    public TrafficSignal getTrafficSignal() {
+        return trafficSignal;
     }
 
     private int getTrafficThreshold(){

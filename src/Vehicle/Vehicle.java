@@ -112,6 +112,40 @@ public class Vehicle implements Animatable, Simulatable {
         }
     }
 
+    public int getSafePosX(){
+        switch (this.getFacing()){
+            case Road.DIRECTION_NORTH:
+                return posX;
+
+            case Road.DIRECTION_SOUTH:
+                return posX;
+
+            case Road.DIRECTION_WEST:
+                return posX + SimulationGraphicConfig.VEHICLE_WIDTH + 10;
+
+            case Road.DIRECTION_EAST:
+                return posX - SimulationGraphicConfig.VEHICLE_WIDTH - 10;
+        }
+        return posX;
+    }
+
+    public int getSafePosY(){
+        switch (this.getFacing()){
+            case Road.DIRECTION_NORTH:
+                return posY + SimulationGraphicConfig.VEHICLE_WIDTH + 10;
+
+            case Road.DIRECTION_SOUTH:
+                return posY - SimulationGraphicConfig.VEHICLE_WIDTH - 10;
+
+            case Road.DIRECTION_WEST:
+                return posY;
+
+            case Road.DIRECTION_EAST:
+                return posY;
+        }
+        return posY;
+    }
+
     public int getRunState() {
         return runState;
     }
@@ -123,6 +157,14 @@ public class Vehicle implements Animatable, Simulatable {
     public void waitUntilGreen(){
         this.runState = Vehicle.STATE_WAITING;
         waitingInstances++;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
     }
 
     public void goUntilRed(){
@@ -155,5 +197,22 @@ public class Vehicle implements Animatable, Simulatable {
 
     public int getFacing(){
         return this.road.getDirection();
+    }
+
+    public int getMobilePos(){
+        switch (this.getFacing()){
+            case Road.DIRECTION_NORTH:
+                return posY;
+
+            case Road.DIRECTION_WEST:
+                return posX;
+
+            case Road.DIRECTION_SOUTH:
+                return posY;
+
+            case Road.DIRECTION_EAST:
+                return posX;
+        }
+        return 0;
     }
 }

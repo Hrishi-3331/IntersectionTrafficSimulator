@@ -13,7 +13,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
     AnimationPanel(ScenarioHandler handler){
         this.handler = handler;
-        timer = new Timer(300, this);
+        timer = new Timer(50, this);
     }
 
     void start(){

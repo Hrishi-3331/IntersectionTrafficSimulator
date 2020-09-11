@@ -5,7 +5,6 @@ import Road.Road;
 import SignalController.SignalController;
 import TrafficSignal.TrafficSignal;
 import res.SimulationGraphicConfig;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
@@ -40,6 +39,7 @@ public class Intersection implements Animatable{
     }
 
     public void setSignalController(SignalController signalController) {
+        signalController.setIntersection(this);
         this.signalController = signalController;
     }
 
@@ -66,5 +66,4 @@ public class Intersection implements Animatable{
             e.printStackTrace();
         }
     }
-
 }
