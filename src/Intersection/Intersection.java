@@ -23,6 +23,8 @@ public class Intersection implements Animatable{
         this.id = id;
         roads = new ArrayList<Road>();
         signals = new ArrayList<TrafficSignal>();
+        this.posX = GraphicResources.VERTICAL_ROAD_X_POS;
+        this.posY = GraphicResources.HORIZONTAL_ROAD_Y_POS;
     }
 
     public void addRoad(Road road){
@@ -43,6 +45,14 @@ public class Intersection implements Animatable{
 
     public String getId(){
         return this.id;
+    }
+
+    public ArrayList<Road> getRoads() {
+        return roads;
+    }
+
+    public ArrayList<TrafficSignal> getSignals() {
+        return signals;
     }
 
     @Override

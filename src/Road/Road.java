@@ -1,12 +1,15 @@
 package Road;
 
 import Animation.Animatable;
+import SimulationToolbox.Scenario;
 import Vehicle.Vehicle;
 import res.GraphicResources;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 public abstract class Road implements Animatable {
 
@@ -35,8 +38,12 @@ public abstract class Road implements Animatable {
         this.id = id;
         if (direction == Road.DIRECTION_NORTH | direction == Road.DIRECTION_SOUTH) {
             orientation = Road.ORIENTATION_VERTICAL;
+            posY = 0;
+            posX = GraphicResources.VERTICAL_ROAD_X_POS;
         } else if (direction == Road.DIRECTION_EAST | direction == Road.DIRECTION_WEST) {
             orientation = Road.ORIENTATION_HORIZONTAL;
+            posX = 0;
+            posY = GraphicResources.HORIZONTAL_ROAD_Y_POS;
         }
         this.trafficIntensity = Road.INTENSITY_MODERATE;
         vehicles = new ArrayList<>();
@@ -106,5 +113,54 @@ public abstract class Road implements Animatable {
             if (vehicle.getRunState() == Vehicle.STATE_WAITING) count++;
         }
         return count;
+    }
+
+    public boolean newVehicle(int flag, Scenario scenario) {
+        if (flag > getTrafficThreshold()){
+            boolean add = new Random().nextBoolean();
+            if (add){
+                Vehicle vehicle = new Vehicle(UUID.randomUUID().toString(), this);
+                addVehicle(vehicle);
+                switch (vehicle.getFacing()){
+                    case Road.DIRECTION_EAST:
+                        vehicle.setPosX(GraphicResources.VEHICLE_EAST_POS_X);
+                        vehicle.setPosY(GraphicResources.VEHICLE_EAST_POS_Y);
+                        break;
+
+                    case Road.DIRECTION_WEST:
+                        vehicle.setPosX(GraphicResources.VEHICLE_WEST_POS_X);
+                        vehicle.setPosY(GraphicResources.VEHICLE_WEST_POS_Y);
+                        break;
+
+                    case Road.DIRECTION_SOUTH:
+                        vehicle.setPosX(GraphicResources.VEHICLE_SOUTH_POS_X);
+                        vehicle.setPosY(GraphicResources.VEHICLE_SOUTH_POS_Y);
+                        break;
+
+                    case Road.DIRECTION_NORTH:
+                        vehicle.setPosX(GraphicResources.VEHICLE_NORTH_POS_X);
+                        vehicle.setPosY(GraphicResources.VEHICLE_NORTH_POS_Y);
+                        break;
+                }
+                scenario.addComponent(vehicle);
+                this.addVehicle(vehicle);
+            }
+            return add;
+        }
+        else return false;
+    }
+
+    private int getTrafficThreshold(){
+        switch (this.getTrafficIntensity()){
+            case Road.INTENSITY_LOW:
+                return GraphicResources.LOW_TRAFFIC_THRESHOLD_INTERVAL;
+
+            case Road.INTENSITY_MODERATE:
+                return GraphicResources.MODERATE_TRAFFIC_THRESHOLD_INTERVAL;
+
+            case Road.INTENSITY_HIGH:
+                return GraphicResources.HIGH_TRAFFIC_THRESHOLD_INTERVAL;
+        }
+        return 3;
     }
 }
