@@ -25,6 +25,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
         super.paint(g);
         setBackground(Color.green);
         handler.drawAnimatables(g);
+        Graphics2D graphics2D = (Graphics2D) g;
+        Font myFont = new Font ("Courier New", Font.BOLD, 17);
+        graphics2D.setFont(myFont);
+        graphics2D.drawString("Instance " + handler.getCurrentInstance(), 30 , 30);
     }
 
     @Override
@@ -33,6 +37,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         if (handler.isTerminated()){
             timer.stop();
             System.out.println("Animation Ended");
+            System.out.println("Average waiting time is " + handler.calculateAverageTime());
+            handler.plotGraph();
         }
         this.repaint();
     }

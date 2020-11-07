@@ -6,6 +6,4 @@ public class OneWayRoad extends Road {
         super(id, direction);
     }
 
-
-
 }

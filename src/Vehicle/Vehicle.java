@@ -107,6 +107,9 @@ public class Vehicle implements Animatable, Simulatable {
             if (this.runState == Vehicle.STATE_RUNNING) {
                 moveAhead();
             }
+            else if (this.runState == Vehicle.STATE_WAITING){
+                waitingTime++;
+            }
             road.check(this);
             i++;
         }
@@ -184,7 +187,7 @@ public class Vehicle implements Animatable, Simulatable {
     }
 
     public int getAverageWaitingTime() {
-        return waitingInstances == 0 ? 0 : (int) waitingTime/waitingInstances;
+        return waitingTime;
     }
 
     public Road getRoad() {

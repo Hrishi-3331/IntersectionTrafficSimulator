@@ -16,6 +16,7 @@ public final class SimulationGraphicConfig {
     public static final String SIGNAL_GREEN = "/res/SignalGraphics/signal_green.png";
     public static final String SIGNAL_YELLOW = "/res/SignalGraphics/signal_yellow.png";
     public static final String INTERSECTION = "/res/IntersectionGraphics/intersection.png";
+    public static final int VEHICLE_LENGTH = 80;
     public static final int VEHICLE_WIDTH = 80;
     public static final int VEHICLE_HEIGHT = 60;
     public static final int ROAD_WIDTH = 160;

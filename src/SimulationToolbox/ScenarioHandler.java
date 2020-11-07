@@ -5,6 +5,17 @@ import Animation.AnimationWindow;
 import Intersection.Intersection;
 import Road.Road;
 import Vehicle.Vehicle;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.xy.XYBarDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,11 +30,13 @@ public class ScenarioHandler {
     private double duration;
     private int[] flags;
     private ArrayList<Road> roads;
+    ArrayList<ArrayList<Integer>> waitinglist;
 
     public ScenarioHandler(Scenario scenario){
         this.scenario = scenario;
         instance = 0;
         duration = DURATION_DEFAULT;
+        waitinglist = new ArrayList<>();
     }
 
     public ScenarioHandler(Scenario scenario, double duration){
@@ -44,6 +57,14 @@ public class ScenarioHandler {
                 flags[i] = 0;
             }
         }
+        if (this.getCurrentInstance() % 30 == 0){
+            cleanup();
+        }
+        int pointer = 0;
+        for (Road road : roads){
+            waitinglist.get(pointer++).add(road.getWaitingCount());
+        }
+        System.out.println(getCurrentInstance());
     }
 
     public void drawAnimatables(Graphics graphics){
@@ -75,11 +96,9 @@ public class ScenarioHandler {
         flags = new int[roads.size()];
         for(int i = 0; i < roads.size(); i++){
             flags[i] = 0;
+            waitinglist.add(new ArrayList<>());
         }
         window.start();
-        if (this.getCurrentInstance() % 30 == 0){
-            cleanup();
-        }
     }
 
     private void cleanup() {
@@ -98,5 +117,53 @@ public class ScenarioHandler {
             list2.remove((Animatable) trash.get(i));
         }
         trash.clear();
+    }
+
+    public double calculateAverageTime(){
+        ArrayList<Object> list = scenario.getComponents();
+        int count = 0;
+        int time = 0;
+        for(Object o : list){
+            if (o instanceof Vehicle){
+                count++;
+                time += ((Vehicle)o).getAverageWaitingTime();
+            }
+        }
+        if (count == 0) return 0;
+        return (double)time/count;
+    }
+
+    public void plotGraph(){
+        XYSeriesCollection dataset = new XYSeriesCollection();
+        int pointer = 0;
+        for (Road road : roads) {
+            XYSeries series = new XYSeries(road.getId());
+            ArrayList<Integer> data = waitinglist.get(pointer++);
+            for (int i = 0; i < data.size(); i++){
+                series.add(i, data.get(i));
+            }
+            dataset.addSeries(series);
+        }
+        JFreeChart chart = ChartFactory.createXYLineChart("Waiting Time analysis", "Time instance", "Waiting Vehicles", dataset, PlotOrientation.VERTICAL, false, false, true);
+        ChartFrame frame = new ChartFrame("Algorithm Analysis", chart);
+        frame.setBackground(Color.WHITE);
+        frame.setVisible(true);
+        frame.setSize(400, 350);
+
+        XYSeriesCollection waitingdataset = new XYSeriesCollection();
+        ArrayList<Object> list = scenario.getComponents();
+        int p = 0;
+        XYSeries series = new XYSeries("Average waiting time of vehicles");
+        for (Object o : list){
+            if (o instanceof Vehicle){
+                series.add(p++, ((Vehicle)o).getAverageWaitingTime());
+            }
+        }
+        waitingdataset.addSeries(series);
+        JFreeChart newchart = ChartFactory.createScatterPlot("Waiting Time Analysis", "Vehicle number", "Waiting time", waitingdataset, PlotOrientation.VERTICAL, false, false, true);
+        ChartFrame mFrame = new ChartFrame("Algorithm Analysis II", newchart);
+        mFrame.setBackground(Color.WHITE);
+        mFrame.setVisible(true);
+        mFrame.setSize(400, 350);
     }
 }
